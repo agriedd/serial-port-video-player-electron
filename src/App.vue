@@ -1,27 +1,58 @@
 <script setup lang="ts">
+import { shallowRef } from 'vue';
 import HelloWorld from './components/HelloWorld.vue'
+
+const showSecondVideo = shallowRef(false)
+
+const pathToVideoFirst = "/6536354-hd_1920_1080_25fps.mp4"
+const pathToVideoSecond = "/file_example_MP4_1920_18MG.mp4"
+
+const toggleVideo = ()=>{
+  showSecondVideo.value = !showSecondVideo.value
+}
+const onVideoPause = (e: Event)=>{
+  (e.target as HTMLVideoElement).play()
+}
 </script>
 
 <template>
-  <div>
-    <a href="https://www.electronjs.org/" target="_blank">
-      <img src="./assets/electron.svg" class="logo electron" alt="Electron logo" />
-    </a>
-    <a href="https://vitejs.dev/" target="_blank">
-      <img src="./assets/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Electron + Vite + Vue" />
-  <div class="flex-center">
-    Place static files into the <code>/public</code> folder
-    <img style="width: 2.4em; margin-left: .4em;" src="/logo.svg" alt="Logo">
+  <div class="container">
+    <div style="position: fixed; top: 0px; left: 0px; z-index: 3; padding: 1rem;">
+      <button @click="toggleVideo">
+        Toggle
+      </button>
+    </div>
+    <div style="background-color: black; z-index: 1; height: 100%; width: 100%; display: flex; flex-direction: column; justify-content: center;">
+      <video :src="pathToVideoSecond" class="video-2 video-view" style="margin: auto;" autoplay @pause="onVideoPause" loop></video>
+    </div>
+    <div v-if="!showSecondVideo" style="background-color: black; z-index: 2; height: 100%; width: 100%; position: absolute;">
+      <video :src="pathToVideoFirst" class="video-1 video-view" autoplay @pause="onVideoPause" loop></video>
+    </div>
   </div>
 </template>
 
-<style>
+<style scoped>
+body{
+  margin: 0;
+}
+.container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+}
+.video-view {
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
 .flex-center {
   display: flex;
   align-items: center;
