@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue';
+import { onBeforeUnmount, onMounted, shallowRef } from 'vue';
 import HelloWorld from './components/HelloWorld.vue'
 
 const showSecondVideo = shallowRef(false)
@@ -13,6 +13,8 @@ const toggleVideo = ()=>{
 const onVideoPause = (e: Event)=>{
   (e.target as HTMLVideoElement).play()
 }
+
+
 </script>
 
 <template>
