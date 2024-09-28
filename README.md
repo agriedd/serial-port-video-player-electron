@@ -11,10 +11,10 @@
 
 ```sh
 # clone the project
-git clone https://github.com/electron-vite/electron-vite-vue.git
+git clone https://github.com/agriedd/serial-port-video-player-electron
 
 # enter the project directory
-cd electron-vite-vue
+cd serial-port-video-player-electron
 
 # install dependency
 npm install
