@@ -6,7 +6,7 @@
 
 
 
-# electron-vite-vue
+# Electron
 ## Quick Setup
 
 ```sh
