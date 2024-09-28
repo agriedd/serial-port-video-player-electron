@@ -2,6 +2,8 @@
 
 ![](./docs/serialport-video-app.drawio.svg)
 
+
+
 # electron-vite-vue
 
 🥳 Really simple `Electron` + `Vue` + `Vite` boilerplate.

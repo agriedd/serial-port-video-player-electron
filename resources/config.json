@@ -1,5 +1,5 @@
 {
-	"type": 1,
+	"type": 0,
 	"min_fsr": 250,
 	"max_servo": 5,
 	"duration_default": 30.0
