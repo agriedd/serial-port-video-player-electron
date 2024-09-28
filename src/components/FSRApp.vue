@@ -2,24 +2,24 @@
 import { computed, onBeforeUnmount, onMounted, shallowRef } from 'vue';
 
 const props = withDefaults(defineProps<{
-	duration_default: number,
-	min_fsr: number,
+  duration_default: number,
+  min_fsr: number,
 }>(), {
-	duration_default: 30.0,
-	min_fsr: 250,
+  duration_default: 30.0,
+  min_fsr: 250,
 })
 
 const pathToVideoFirst = "/resources/video-1.mp4"
 const pathToVideoSecond = "/resources/video-2.mp4"
 
-const secondVideoDurationDefault = computed(()=>{
-	return props.duration_default
+const secondVideoDurationDefault = computed(() => {
+  return props.duration_default
 })
 const secondVideoDuration = shallowRef(secondVideoDurationDefault.value)
 const alreadyOnSecondVideo = shallowRef(false)
 
 const onVideoPause = (e: Event) => {
-  (e.target as HTMLVideoElement).play()
+  // (e.target as HTMLVideoElement).play()
 }
 
 let onSecondVideo: NodeJS.Timeout | null = null
@@ -28,19 +28,21 @@ const onVideoLoad = (e: Event) => {
   const el = (e.target as HTMLVideoElement)
 
   let duration = el.duration ?? secondVideoDurationDefault.value
-  if(duration != secondVideoDurationDefault.value){
+  if (duration != secondVideoDurationDefault.value) {
     console.log("set duration");
     secondVideoDuration.value = duration
   }
 
   if (!alreadyOnSecondVideo.value) {
     alreadyOnSecondVideo.value = true
-    if(onSecondVideo){
+    if (onSecondVideo) {
       clearTimeout(onSecondVideo)
     }
     onSecondVideo = setTimeout(() => {
-      hideSecondVideo()
+      console.log("clear video 2");
       
+      hideSecondVideo()
+
       alreadyOnSecondVideo.value = false
 
     }, secondVideoDuration.value * 1000);
@@ -53,17 +55,38 @@ const startApp = () => {
 };
 
 const message = shallowRef("")
-const minFSRValue = computed(()=>props.min_fsr)
+const minFSRValue = computed(() => props.min_fsr)
 const FSRValue = shallowRef(0)
 const connected = shallowRef(false)
 const debug = shallowRef(true)
 
 const toggleVideo = () => {
-  if (FSRValue.value != 300) {
-    FSRValue.value = 300
+
+  const value = 245 + (Math.random() * 10)
+
+  if (value >= minFSRValue.value) {
+    console.log("person sit");
+
+    if (alreadyOnSecondVideo.value) {
+      console.log("already on video 2");
+    } else {
+      console.log("show video 2");
+      FSRValue.value = value
+    }
   } else {
-    FSRValue.value = 0
+
+    if (alreadyOnSecondVideo) {
+
+    } else {
+      FSRValue.value = value
+    }
+
   }
+  // if (FSRValue.value != 300) {
+  //   FSRValue.value = 300
+  // } else {
+  //   FSRValue.value = 0
+  // }
 }
 
 const hideSecondVideo = () => {
@@ -84,8 +107,8 @@ onMounted(() => {
 
       if (value >= minFSRValue.value) {
         console.log("person sit");
-        
-        if (!alreadyOnSecondVideo.value) {
+
+        if (alreadyOnSecondVideo.value) {
           console.log("already on video 2");
         } else {
           console.log("show video 2");
@@ -93,7 +116,7 @@ onMounted(() => {
         }
       } else {
 
-        if(alreadyOnSecondVideo){
+        if (alreadyOnSecondVideo) {
 
         } else {
           FSRValue.value = value
@@ -115,7 +138,7 @@ onMounted(() => {
     connected.value = false
   })
   startApp()
-  setTimeout(()=>{
+  setTimeout(() => {
     showHightlight.value = false
   }, 5000)
 })
@@ -129,13 +152,13 @@ onMounted(() => {
       <div style="height: .25rem; width: .25rem; background-color: turquoise; border-radius: .5rem;" v-if="connected">
       </div>
       <div v-else style="height: .25rem; width: .25rem; background-color: red; border-radius: .5rem;"></div>
-	  <div v-if="showHightlight">
+      <div v-if="showHightlight">
         App 0
       </div>
       <template v-if="debug">
-        <!-- <button @click="toggleVideo">
+        <button @click="toggleVideo">
           Toggle
-        </button> -->
+        </button>
         <div style="font-size: .75rem;">
           {{ message }}
         </div>
@@ -146,11 +169,11 @@ onMounted(() => {
         style="background-color: black; z-index: 1; height: 100%; width: 100%; display: flex; flex-direction: column; justify-content: center;"
         v-if="showSecondVideo">
         <video :src="pathToVideoSecond" class="video-2 video-view" style="margin: auto;" autoplay @pause="onVideoPause"
-          @stop="onVideoPause" loop></video>
+          @stop="onVideoPause" loop @load="onVideoLoad" @canplay="onVideoLoad"></video>
       </div>
       <div v-else style="background-color: black; z-index: 2; height: 100%; width: 100%; position: absolute;">
         <video :src="pathToVideoFirst" class="video-1 video-view" autoplay @pause="onVideoPause" style="margin: auto;"
-          @stop="onVideoPause" loop @load="onVideoLoad" @canplay="onVideoLoad"></video>
+          @stop="onVideoPause" loop></video>
       </div>
     </Transition>
   </div>

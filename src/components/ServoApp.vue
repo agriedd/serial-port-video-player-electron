@@ -13,7 +13,7 @@ const secondVideoDuration = shallowRef(secondVideoDurationDefault)
 const alreadyOnSecondVideo = shallowRef(false)
 
 const onVideoPause = (e: Event) => {
-  (e.target as HTMLVideoElement).play()
+  // (e.target as HTMLVideoElement).play()
 }
 
 let onSecondVideo: NodeJS.Timeout | null = null
