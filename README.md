@@ -7,6 +7,9 @@
 
 
 # Electron
+
+Electron js as media player app, listen to broadcast data (FSR data result) and play the video by condition
+
 ## Quick Setup
 
 ```sh
@@ -75,7 +78,9 @@ copy and burn into arduino board
     └── main.ino
 ```
 
-# Python
+# Python (Serialport reader)
+
+Python app for read and broadcast serialport data to electron app (Media player)
 
 ```dir
   root
@@ -102,4 +107,9 @@ pip install -U pyinstaller
 then run
 ```bash
 cd serialport && pyinstaller main.py
+
 ```
+### FAQ
+
+why use python instead of node library like [serialport](https://serialport.io/)?
+> serialport library is hard to use, maybe the library should run on binary build idk, but python is easy to build simple process like udp socket and access serialport faster than electron js, so why not?
