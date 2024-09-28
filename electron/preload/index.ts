@@ -1,5 +1,6 @@
 import { ipcRenderer, contextBridge } from 'electron'
 
+import "./services/videoPlayerService";
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', {
   on(...args: Parameters<typeof ipcRenderer.on>) {
