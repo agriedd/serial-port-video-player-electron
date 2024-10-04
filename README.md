@@ -4,6 +4,7 @@
 
 ![](./docs/serialport-video-app.drawio.svg)
 
+**typo on the right process should be **video 1**
 
 
 # Electron
